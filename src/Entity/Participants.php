@@ -23,6 +23,8 @@ class Participants
      */
     private $Nom;
 
+
+
     /**
      * @ORM\Column(type="string", length=60)
      */
@@ -43,9 +45,20 @@ class Participants
      */
     private $titre;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="participants", cascade="persist")
+     */
+    private $files;
+
     public function __construct()
     {
         $this->titre = new ArrayCollection();
+        $this->files = new ArrayCollection();
+    }
+
+    public function  __toString()
+    {
+        return $this->getNom();
     }
 
     public function getId(): ?int
@@ -122,6 +135,37 @@ class Participants
     {
         if ($this->titre->contains($titre)) {
             $this->titre->removeElement($titre);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|File[]
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): self
+    {
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+            $file->setParticipants($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): self
+    {
+        if ($this->files->contains($file)) {
+            $this->files->removeElement($file);
+            // set the owning side to null (unless already changed)
+            if ($file->getParticipants() === $this) {
+                $file->setParticipants(null);
+            }
         }
 
         return $this;

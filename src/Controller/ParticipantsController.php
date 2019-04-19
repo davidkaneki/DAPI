@@ -31,6 +31,12 @@ class ParticipantsController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             // Insertion de l'article en BDD
             $manager->persist($participants); // Préparation du SQL
+
+            foreach ($participants->getFiles() as $file){
+                $file->setParticipants($participants);
+                $manager->persist($file);
+            }
+
             $manager->flush(); // Exécution du SQL
             // Ajout d'un message flash
             $this->addFlash('success', 'Vous allez recevoir un mail de confirmation');
@@ -39,6 +45,7 @@ class ParticipantsController extends AbstractController
                 'id' => $participants->getId()
             ]);
         }
+
         return $this->render('participation/index.html.twig', [
             'form' => $form->createView()
         ]);
