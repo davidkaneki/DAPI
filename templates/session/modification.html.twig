@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'une session{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="session">
+            <h1>Création d'une session</h1>
+
+
+
+            {{ form_start(createForm, {"attr": {"class": 'formulaire'}}) }}
+            <div class="row">
+                {{ form_errors(createForm.titre) }}
+                <label class="label">Titre</label>
+                {{ form_widget(createForm.titre, {"attr": {"class": 'inputCustom'}}) }}{{ form_errors(createForm.titre) }}
+                {{ form_help(createForm.titre) }}
+            </div>
+            <div class="row">
+                {{ form_errors(createForm.description) }}
+                <label class="label">Description</label>
+                {{ form_widget(createForm.description, {"attr": {"class": 'inputCustomTextarea'}}) }}
+                {{ form_help(createForm.description) }}
+            </div>
+            <div class="row">
+                {{ form_errors(createForm.date_debut) }}
+                <label class="label">Date de début</label>
+                {{ form_widget(createForm.date_debut, {
+                    "attr": {
+                        "class": 'inputDate',
+                        min: "now" | date('Y-m-d')
+                    }
+                })}}
+                {{ form_help(createForm.date_debut) }}
+            </div>
+            <div class="row">
+                {{ form_errors(createForm.date_fin) }}
+                <label class="label">Date de fin</label>
+                {{ form_widget(createForm.date_fin, {
+                    "attr": {
+                        "class": 'inputDate',
+                        min: "now" | date('Y-m-d')
+                    }
+                })}}
+                {{ form_help(createForm.date_fin) }}
+            </div>
+
+            <input type="submit" value="Créer la session" class="btnSubmit">
+            {{ form_end(createForm) }}
+        </div>
+
+        <div class="btnAjout">
+            <a href="{{ path('session_liste') }}" class="btn">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

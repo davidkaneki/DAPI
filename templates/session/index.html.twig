@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des sessions{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="session">
+            <h1>Liste des sessions</h1>
+            <div class="liste">
+                {% for session in session %}
+                    <div class="box">
+                        <h3>{{ session.titre }}</h3>
+                        <p>{{ session.description }}</p>
+
+                        <div class="btnAction" role="group" aria-label="Basic example">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div class="btnActionA">
+                                <a href="{{ path('session_modification', {id: session.id}) }}" class="btn">Modifier la session</a>
+                            </div>
+                            <div class="btnActionA">
+                                <a href="{{ path('session_delete', {id: session.id}) }}" class="btn">Supprimer la session</a>
+                            </div>
+                            {% endif %}
+                            <div class="btnActionA">
+                                <a href="{{ path('participants_creation', {id: session.id}) }}" class="btn">Je participe</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="btnAjout">
+                <a href="{{ path('session_creation') }}" class="btn">Nouvelle session</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
